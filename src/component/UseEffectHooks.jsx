@@ -5,6 +5,7 @@ function UseEffectHooks() {
   const [count, setCount] = useState(0);
   const [items, setItems] = useState([]);
 
+  console.log(content);
   // useEffect hooks - > using the lifeCycle methods
 
   //Mount
@@ -16,10 +17,12 @@ function UseEffectHooks() {
   useEffect(() => {
     console.log("componentDidUpdate");
 
-    fetch("https://jsonplaceholder.typicode.com/" + content)
-      .then((response) => response.json())
-      //.then((json) => console.log(json));
-      .then((json) => setItems(json));
+    if (content) {
+      fetch("https://jsonplaceholder.typicode.com/" + content)
+        .then((response) => response.json())
+        //.then((json) => console.log(json));
+        .then((json) => setItems(json));
+    }
   });
 
   //UnMount
@@ -30,7 +33,7 @@ function UseEffectHooks() {
       console.log("Unmount");
     };
   }, [count]);
-
+  console.log(items);
   return (
     <div>
       <button onClick={() => setCount(count + 1)}>Count {count}</button>
@@ -44,6 +47,7 @@ function UseEffectHooks() {
         {items &&
           items.map((item) => {
             // return <pre>{JSON.stringify(item)}</pre>;
+
             return <li key={item.id}>{item.id}</li>;
           })}
       </ul>
